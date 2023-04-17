@@ -20,25 +20,25 @@ class NotificationManager extends Manager implements Factory
 
     protected function createSlackDriver(): Slack
     {
-        return new Slack(setting('notification_slack_webhook_url'));
+        return new Slack(setting('ae_notification_plus_slack_webhook_url'));
     }
 
     protected function createWhatsappDriver(): WhatsApp
     {
         return new WhatsApp(
-            setting('notification_whatsapp_phone_number_id'),
-            setting('notification_whatsapp_to_phone_number'),
-            setting('notification_whatsapp_access_token')
+            setting('ae_notification_plus_whatsapp_phone_number_id'),
+            setting('ae_notification_plus_whatsapp_to_phone_number'),
+            setting('ae_notification_plus_whatsapp_access_token')
         );
     }
 
     protected function createSmsDriver(): Sms
     {
         return new Sms(
-            setting('notification_sms_vonage_api_key'),
-            setting('notification_sms_vonage_api_secret'),
-            setting('notification_sms_vonage_from'),
-            setting('notification_sms_vonage_to')
+            setting('ae_notification_plus_sms_vonage_api_key'),
+            setting('ae_notification_plus_sms_vonage_api_secret'),
+            setting('ae_notification_plus_sms_vonage_from'),
+            setting('ae_notification_plus_sms_vonage_to')
         );
     }
 

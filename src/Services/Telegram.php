@@ -39,7 +39,7 @@ class Telegram
     public function sendMessage(string $message): array
     {
         $response = $this->request('POST', 'sendMessage', [
-            'chat_id' => setting('notification_telegram_chat_id'),
+            'chat_id' => setting('ae_notification_plus_telegram_chat_id'),
             'text' => $message,
         ]);
 
@@ -48,7 +48,7 @@ class Telegram
 
     protected function request(string $method, string $uri, array $data = []): Response
     {
-        $botToken = setting('notification_telegram_bot_token');
+        $botToken = setting('ae_notification_plus_telegram_bot_token');
 
         return match (strtoupper($method)) {
             'POST' => Http::post(self::API_URL . $botToken . '/' . $uri, $data),

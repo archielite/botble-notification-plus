@@ -7,13 +7,10 @@ use Botble\Setting\Models\Setting;
 
 class Plugin extends PluginOperationAbstract
 {
-    public static function remove()
+    public static function remove(): void
     {
         Setting::query()
-            ->whereIn('key', [
-                'telegram_notification_enabled',
-                'telegram_bot_token',
-                'telegram_channel_id',
-            ])->delete();
+            ->where('key', 'LIKE', 'ae_notification_plus_%')
+            ->delete();
     }
 }

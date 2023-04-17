@@ -22,7 +22,7 @@ class WhatsApp implements Provider
     public function send(string $message): array
     {
         $response = Http::asJson()
-            ->withToken(setting('notification_whatsapp_access_token'))
+            ->withToken(setting('ae_notification_plus_whatsapp_access_token'))
             ->post("https://graph.facebook.com/v16.0/$this->phoneNumberId/messages", [
                 'messaging_product' => 'whatsapp',
                 'to' => $this->toPhoneNumber,
