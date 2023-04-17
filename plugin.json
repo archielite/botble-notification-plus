@@ -1,0 +1,10 @@
+{
+    "id": "archielite/notification-plus",
+    "name": "Notification Plus",
+    "namespace": "ArchiElite\\NotificationPlus\\",
+    "provider": "ArchiElite\\NotificationPlus\\Providers\\NotificationPlusServiceProvider",
+    "author": "Archi Elite",
+    "url": "https://archielite.com",
+    "version": "0.0.1",
+    "description": "Integrate Telegram, Slack, WhatsApp, SMS,... to Botble CMS."
+}
