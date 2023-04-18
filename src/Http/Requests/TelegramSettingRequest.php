@@ -10,10 +10,10 @@ class TelegramSettingRequest extends Request
     public function rules(): array
     {
         return [
-            'ae_notification_plus_telegram_bot_token' => ['required', 'string'],
-            'ae_notification_plus_telegram_chat_id' => [
-                Rule::requiredIf(fn () => $this->input('ae_notification_plus_telegram_bot_token') !== ''),
-                'string'
+            'ae_notification_plus.telegram_bot_token' => ['required', 'string'],
+            'ae_notification_plus.telegram_chat_id' => [
+                Rule::requiredIf(fn () => $this->input('ae_notification_plus.telegram_bot_token') !== ''),
+                'string',
             ],
         ];
     }
@@ -21,8 +21,8 @@ class TelegramSettingRequest extends Request
     public function attributes(): array
     {
         return [
-            'ae_notification_plus_telegram_bot_token' => __('Telegram Bot Token'),
-            'ae_notification_plus_telegram_chat_id' => __('Telegram Chat ID'),
+            'ae_notification_plus.telegram_bot_token' => __('Telegram Bot Token'),
+            'ae_notification_plus.telegram_chat_id' => __('Telegram Chat ID'),
         ];
     }
 }

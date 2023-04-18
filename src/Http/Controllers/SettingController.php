@@ -12,6 +12,7 @@ use Botble\Setting\Supports\SettingStore;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Throwable;
 
 class SettingController extends BaseController
 {
@@ -29,8 +30,8 @@ class SettingController extends BaseController
 
     public function save(Request $request, BaseHttpResponse $response, SettingStore $setting): BaseHttpResponse
     {
-        foreach ($request->input() as $key => $value) {
-            $setting->set($key, $value);
+        foreach ($request->input('ae_notification_plus', []) as $key => $value) {
+            $setting->set('ae_notification_plus_' . $key, $value);
         }
 
         $setting->save();
@@ -47,17 +48,23 @@ class SettingController extends BaseController
             'message' => ['required', 'string'],
         ]);
 
-        $data = Notification::driver($request->input('driver'))->send($request->input('message'));
+        try {
+            $data = Notification::driver($request->input('driver'))->send($request->input('message'));
 
-        if ($data['success'] === false) {
+            if ($data['success'] === false) {
+                return $response
+                    ->setError()
+                    ->setMessage($data['message']);
+            }
+
+            return $response
+                ->setPreviousUrl(route('notification-plus.settings'))
+                ->setMessage(trans('plugins/notification-plus::notification-plus.send_test_message.success_message'));
+        } catch (Throwable $exception) {
             return $response
                 ->setError()
-                ->setMessage($data['message']);
+                ->setMessage($exception->getMessage());
         }
-
-        return $response
-            ->setPreviousUrl(route('notification-plus.settings'))
-            ->setMessage(trans('plugins/notification-plus::notification-plus.send_test_message.success_message'));
     }
 
     public function getTelegramChatIds(TelegramService $telegramService, BaseHttpResponse $response): BaseHttpResponse

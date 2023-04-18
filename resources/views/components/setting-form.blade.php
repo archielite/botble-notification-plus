@@ -21,15 +21,15 @@
         <form action="{{ route('notification-plus.settings') }}" method="post" class="wrapper-content pd-all-20 notification-settings-form" id="{{ $driver }}-settings-form">
             @csrf
 
-            <div class="mb-3 form-group">
-                <input type="hidden" name="ae_notification_plus_{{ $driver }}_enable" value="0">
+            <div>
+                <input type="hidden" name="ae_notification_plus[{{ $driver }}_enable]" value="0">
                 <label>
-                    <input type="checkbox" class="hrv-checkbox" value="1" name="ae_notification_plus_{{ $driver }}_enable" id="notification_{{ $driver }}_enable" @checked(setting('ae_notification_plus_' . $driver . '_enable'))>
+                    <input type="checkbox" class="enable-notification-item-checkbox" value="1" name="ae_notification_plus[{{ $driver }}_enable]" id="notification_{{ $driver }}_enable" @checked(setting('ae_notification_plus_' . $driver . '_enable'))>
                     {{ trans("plugins/notification-plus::notification-plus.$driver.settings.enable") }}
                 </label>
             </div>
 
-            <div class="notification-wrapper" @if (! setting('ae_notification_plus_' . $driver . '_enable')) style="display: none;" @endif>
+            <div class="mt-3 notification-wrapper" @if (! setting('ae_notification_plus_' . $driver . '_enable')) style="display: none;" @endif>
                 {{ $slot }}
 
                 <button type="submit" class="btn btn-info">

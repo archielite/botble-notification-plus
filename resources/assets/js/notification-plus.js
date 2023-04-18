@@ -2,7 +2,7 @@ class NotificationPlus {
     $form = $('.notification-settings-form')
 
     constructor() {
-        $('.hrv-checkbox').on('change', (event) =>  {
+        this.$form.find('.enable-notification-item-checkbox').on('change', async (event) =>  {
             const $currentTarget = $(event.currentTarget)
 
             if ($currentTarget.prop('checked')) {
@@ -12,9 +12,11 @@ class NotificationPlus {
                 $currentTarget.closest('.wrapper-content').find('.notification-wrapper').hide()
                 $currentTarget.closest('.form-group').addClass('mb-0')
             }
+
+            await this.saveSettings($currentTarget.closest('form').find('button[type="submit"]'))
         })
 
-        $('.send-test-message').on('click', async (event) => {
+        this.$form.find('.send-test-message').on('click', async (event) => {
             await this.openSendTestMessageModal(event)
         })
 
@@ -22,24 +24,22 @@ class NotificationPlus {
             this.sendTestMessage(event)
         })
 
-        $.each(this.$form, async (key, value) => {
-            const $form = $(value)
+        this.$form.on('submit', async (event) => {
+            event.preventDefault()
+            event.stopPropagation()
 
-            $(value).on('submit', async (event) => {
-                event.preventDefault()
-                event.stopPropagation()
+            const $form = $(event.currentTarget)
 
-                if ($form.valid()) {
-                    await this.saveSettings($form.find('button[type="submit"]'))
-                }
-            })
+            if ($form.valid()) {
+                await this.saveSettings($form.find('button[type="submit"]'))
+            }
         })
 
-        $('#get-telegram-chat-ids').on('click', async (event) => {
+        this.$form.find('#get-telegram-chat-ids').on('click', async (event) => {
             await this.getTelegramChatIds(event)
         })
 
-        $('input[name="ae_notification_plus_telegram_bot_token"]').on('change', (event) => {
+        $('.js-telegram-bot-token').on('change', (event) => {
             if ($(event.currentTarget).val()) {
                 $('.telegram-chat-id-wrapper').show()
             } else {
@@ -49,10 +49,12 @@ class NotificationPlus {
     }
 
     async saveSettings($button) {
+        const $form = $button.closest('form')
+
         await $.ajax({
             type: 'POST',
             url: route('notification-plus.settings'),
-            data: this.$form.serialize(),
+            data: $form.serialize(),
             beforeSend: () => {
                 $button.addClass('button-loading')
             },
@@ -65,6 +67,8 @@ class NotificationPlus {
                 }
 
                 Botble.showSuccess(message)
+
+                $form.find('.send-test-message').removeClass('d-none')
             },
             error: (error) => {
                 Botble.handleError(error)
