@@ -5,6 +5,6 @@
     "provider": "ArchiElite\\NotificationPlus\\Providers\\NotificationPlusServiceProvider",
     "author": "Archi Elite",
     "url": "https://archielite.com",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Integrate Telegram, Slack, WhatsApp, SMS,... to Botble CMS."
 }

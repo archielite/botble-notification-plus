@@ -48,7 +48,7 @@ class NotificationPlusServiceProvider extends ServiceProvider implements Deferra
             ]);
         });
 
-        $this->booted(function () {
+        $this->app->booted(function () {
             $notificationManager = $this->app->make(NotificationManagerContract::class);
             $notificationManager->register(Telegram::class);
             $notificationManager->register(Slack::class);
