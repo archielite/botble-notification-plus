@@ -2,27 +2,27 @@
 
 namespace ArchiElite\NotificationPlus\Http\Requests;
 
-use Botble\Support\Http\Requests\Request;
+use ArchiElite\NotificationPlus\Drivers\Sms;
 
-class SmsSettingRequest extends Request
+class SmsSettingRequest extends SettingRequest
 {
     public function rules(): array
     {
         return [
-            'ae_notification_plus.sms_vonage_api_key' => ['required', 'string'],
-            'ae_notification_plus.sms_vonage_api_secret' => ['required', 'string'],
-            'ae_notification_plus.sms_vonage_from' => ['required', 'string'],
-            'ae_notification_plus.sms_vonage_to' => ['required', 'string'],
+            $this->inputKey(Sms::class, 'vonage_api_key') => ['required', 'string'],
+            $this->inputKey(Sms::class, 'vonage_api_secret') => ['required', 'string'],
+            $this->inputKey(Sms::class, 'vonage_from') => ['required', 'string'],
+            $this->inputKey(Sms::class, 'vonage_to') => ['required', 'string'],
         ];
     }
 
     public function attributes(): array
     {
         return [
-            'ae_notification_plus.sms_vonage_api_key' => __('Vonage API Key'),
-            'ae_notification_plus.sms_vonage_api_secret' => __('Vonage API Secret'),
-            'ae_notification_plus.sms_vonage_from' => __('Vonage From'),
-            'ae_notification_plus.sms_vonage_to' => __('Vonage To'),
+            $this->inputKey(Sms::class, 'vonage_api_key') => __('Vonage API Key'),
+            $this->inputKey(Sms::class, 'vonage_api_secret') => __('Vonage API Secret'),
+            $this->inputKey(Sms::class, 'vonage_from') => __('Vonage From'),
+            $this->inputKey(Sms::class, 'vonage_to') => __('Vonage To'),
         ];
     }
 }

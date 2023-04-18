@@ -22,7 +22,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="float-start btn btn-{{ $type }}" data-bs-dismiss="modal">{{ trans('core/base::tables.cancel') }}</button>
-                <button type="button" class="float-end btn btn-{{ $type }}">{!! $buttonLabel !!}</button>
+                <button type="submit" class="float-end btn btn-{{ $type }}">{!! $buttonLabel !!}</button>
             </div>
         </div>
     </div>

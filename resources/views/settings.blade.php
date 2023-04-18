@@ -2,11 +2,9 @@
 
 @section('content')
     <div class="max-width-1200">
-        @include('plugins/notification-plus::settings.telegram')
-        @include('plugins/notification-plus::settings.slack')
-        @include('plugins/notification-plus::settings.whatsapp')
-        @include('plugins/notification-plus::settings.sms')
-        {!! apply_filters('ae_notification_plus_plus_settings', null) !!}
+        {!! apply_filters('ae_notification_plus_before_settings', null) !!}
+        {!! apply_filters('ae_notification_plus_settings', NotificationPlus::settings()) !!}
+        {!! apply_filters('ae_notification_plus_after_settings', null) !!}
     </div>
 
     <x-notification-plus::modal
@@ -18,8 +16,8 @@
             @csrf
             <div class="form-group mb-3">
                 <input type="hidden" name="driver" value="">
-                <label class="control-label">{{ trans('plugins/notification-plus::notification-plus.send_test_message.modal_message_label') }}</label>
-                <textarea class="form-control" name="message">{{ __('You have received a test message from Notification Plus plugin on :site.', ['site' => request()->getHost()]) }}</textarea>
+                <label class="control-label" for="test-notification-message">{{ trans('plugins/notification-plus::notification-plus.send_test_message.modal_message_label') }}</label>
+                <textarea class="form-control" id="test-notification-message" name="message">{{ __('You have received a test message from Notification Plus plugin on :site.', ['site' => request()->getHost()]) }}</textarea>
             </div>
         </form>
     </x-notification-plus::modal>

@@ -1,0 +1,39 @@
+<?php
+
+namespace ArchiElite\NotificationPlus;
+
+use ArchiElite\NotificationPlus\Facades\NotificationPlus;
+use Illuminate\Support\Str;
+
+abstract class AbstractDriver
+{
+    protected string $validatorClass;
+
+    protected string $viewPath;
+
+    abstract public function send(string $message): array;
+
+    public function settings(): string
+    {
+        return view($this->viewPath, [
+            'name' => $this->getName(),
+            'driver' => get_class($this),
+            'validator' => $this->validatorClass,
+        ])->render();
+    }
+
+    public function isEnabled(): bool
+    {
+        return (bool) $this->getSetting('enable');
+    }
+
+    protected function getSetting(string $key): ?string
+    {
+        return NotificationPlus::getSetting($this->getName(), $key);
+    }
+
+    public function getName(): string
+    {
+        return Str::slug(Str::snake(get_class($this)));
+    }
+}

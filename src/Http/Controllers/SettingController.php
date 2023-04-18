@@ -2,12 +2,12 @@
 
 namespace ArchiElite\NotificationPlus\Http\Controllers;
 
+use ArchiElite\NotificationPlus\Drivers\Telegram;
 use Botble\Base\Facades\Assets;
 use Botble\Base\Facades\PageTitle;
 use Botble\Base\Http\Controllers\BaseController;
 use Botble\Base\Http\Responses\BaseHttpResponse;
-use ArchiElite\NotificationPlus\Facades\Notification;
-use ArchiElite\NotificationPlus\Services\Telegram as TelegramService;
+use ArchiElite\NotificationPlus\Facades\NotificationPlus;
 use Botble\Setting\Supports\SettingStore;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -30,8 +30,8 @@ class SettingController extends BaseController
 
     public function save(Request $request, BaseHttpResponse $response, SettingStore $setting): BaseHttpResponse
     {
-        foreach ($request->input('ae_notification_plus', []) as $key => $value) {
-            $setting->set('ae_notification_plus_' . $key, $value);
+        foreach ($request->input('ae_notification_plus.' . $request->input('driver'), []) as $key => $value) {
+            $setting->set('ae_notification_plus_' . $request->input('driver') . '_' . $key, $value);
         }
 
         $setting->save();
@@ -44,12 +44,12 @@ class SettingController extends BaseController
     public function sendTestMessage(Request $request, BaseHttpResponse $response): BaseHttpResponse
     {
         $request->validate([
-            'driver' => ['required', 'string', Rule::in(['telegram', 'slack', 'whatsapp', 'sms'])],
+            'driver' => ['required', 'string', Rule::in(NotificationPlus::getAvailableDrivers())],
             'message' => ['required', 'string'],
         ]);
 
         try {
-            $data = Notification::driver($request->input('driver'))->send($request->input('message'));
+            $data = NotificationPlus::driver($request->input('driver'))->send($request->input('message'));
 
             if ($data['success'] === false) {
                 return $response
@@ -67,9 +67,9 @@ class SettingController extends BaseController
         }
     }
 
-    public function getTelegramChatIds(TelegramService $telegramService, BaseHttpResponse $response): BaseHttpResponse
+    public function getTelegramChatIds(Telegram $telegram, BaseHttpResponse $response): BaseHttpResponse
     {
-        $chatIds = $telegramService->getChatIds();
+        $chatIds = $telegram->getChatIds();
 
         return $response
             ->setData($chatIds);

@@ -2,13 +2,17 @@
 
 namespace ArchiElite\NotificationPlus\Providers;
 
+use ArchiElite\NotificationPlus\Drivers\Slack;
+use ArchiElite\NotificationPlus\Drivers\Sms;
+use ArchiElite\NotificationPlus\Drivers\Telegram;
+use ArchiElite\NotificationPlus\Drivers\WhatsApp;
+use ArchiElite\NotificationPlus\Facades\NotificationPlus;
 use Botble\Base\Traits\LoadAndPublishDataTrait;
-use ArchiElite\NotificationPlus\Contracts\Factory;
+use ArchiElite\NotificationPlus\Contracts\NotificationManager as NotificationManagerContract;
 use ArchiElite\NotificationPlus\NotificationManager;
 use Illuminate\Contracts\Support\DeferrableProvider;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Routing\Events\RouteMatched;
-use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class NotificationPlusServiceProvider extends ServiceProvider implements DeferrableProvider
@@ -17,7 +21,9 @@ class NotificationPlusServiceProvider extends ServiceProvider implements Deferra
 
     public function register(): void
     {
-        $this->app->singleton(Factory::class, fn ($app) => new NotificationManager($app));
+        $this->app->singleton(NotificationManagerContract::class, NotificationManager::class);
+
+        AliasLoader::getInstance()->alias('NotificationPlus', NotificationPlus::class);
     }
 
     public function boot(): void
@@ -30,7 +36,7 @@ class NotificationPlusServiceProvider extends ServiceProvider implements Deferra
             ->loadAndPublishTranslations()
             ->publishAssets();
 
-        Event::listen(RouteMatched::class, function () {
+        $this->app['events']->listen(RouteMatched::class, function () {
             dashboard_menu()->registerItem([
                 'id' => 'cms-plugins-notification-plus',
                 'parent_id' => 'cms-core-settings',
@@ -42,11 +48,19 @@ class NotificationPlusServiceProvider extends ServiceProvider implements Deferra
             ]);
         });
 
-        Blade::anonymousComponentPath(__DIR__ . '/../../resources/views/components', 'notification-plus');
+        $this->booted(function () {
+            $notificationManager = $this->app->make(NotificationManagerContract::class);
+            $notificationManager->register(Telegram::class);
+            $notificationManager->register(Slack::class);
+            $notificationManager->register(WhatsApp::class);
+            $notificationManager->register(Sms::class);
+        });
+
+        $this->app['blade.compiler']->anonymousComponentPath($this->getViewsPath() . '/components', 'notification-plus');
     }
 
     public function provides(): array
     {
-        return [Factory::class];
+        return [NotificationManagerContract::class];
     }
 }

@@ -2,21 +2,21 @@
 
 namespace ArchiElite\NotificationPlus\Http\Requests;
 
-use Botble\Support\Http\Requests\Request;
+use ArchiElite\NotificationPlus\Drivers\Slack;
 
-class SlackSettingRequest extends Request
+class SlackSettingRequest extends SettingRequest
 {
     public function rules(): array
     {
         return [
-            'ae_notification_plus.slack_webhook_url' => ['required', 'string', 'url'],
+            $this->inputKey(Slack::class, 'webhook_url') => ['required', 'string', 'url'],
         ];
     }
 
     public function attributes(): array
     {
         return [
-            'ae_notification_plus.slack_webhook_url' => __('Slack Webhook URL'),
+            $this->inputKey(Slack::class, 'webhook_url') => __('Slack Webhook URL'),
         ];
     }
 }

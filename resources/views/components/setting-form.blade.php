@@ -1,6 +1,7 @@
 @props([
     'title',
     'description' => null,
+    'name',
     'driver',
     'validator' => null,
 ])
@@ -18,18 +19,20 @@
     </div>
 
     <div class="flexbox-annotated-section-content">
-        <form action="{{ route('notification-plus.settings') }}" method="post" class="wrapper-content pd-all-20 notification-settings-form" id="{{ $driver }}-settings-form">
+        <form action="{{ route('notification-plus.settings') }}" method="post" class="wrapper-content pd-all-20 notification-settings-form" id="{{ $name }}-settings-form">
             @csrf
 
+            <input type="hidden" name="driver" value="{{ $name }}">
+
             <div>
-                <input type="hidden" name="ae_notification_plus[{{ $driver }}_enable]" value="0">
+                <input type="hidden" name="{{ NotificationPlus::getSettingKey($name, 'enable') }}" value="0">
                 <label>
-                    <input type="checkbox" class="enable-notification-item-checkbox" value="1" name="ae_notification_plus[{{ $driver }}_enable]" id="notification_{{ $driver }}_enable" @checked(setting('ae_notification_plus_' . $driver . '_enable'))>
-                    {{ trans("plugins/notification-plus::notification-plus.$driver.settings.enable") }}
+                    <input type="checkbox" class="enable-notification-item-checkbox" value="1" name="{{ NotificationPlus::getSettingKey($name, 'enable') }}" id="notification_{{ $name }}_enable" @checked(NotificationPlus::getSetting($name, 'enable'))>
+                    {{ trans("plugins/notification-plus::notification-plus.settings.enable") }}
                 </label>
             </div>
 
-            <div class="mt-3 notification-wrapper" @if (! setting('ae_notification_plus_' . $driver . '_enable')) style="display: none;" @endif>
+            <div class="mt-3 notification-wrapper" @if (! NotificationPlus::getSetting($name, 'enable')) style="display: none;" @endif>
                 {{ $slot }}
 
                 <button type="submit" class="btn btn-info">
@@ -44,5 +47,5 @@
 </div>
 
 @pushif($validator, 'footer')
-    {!! JsValidator::formRequest($validator, "#$driver-settings-form") !!}
+    {!! JsValidator::formRequest($validator, '#' . $name . '-settings-form') !!}
 @endpushif

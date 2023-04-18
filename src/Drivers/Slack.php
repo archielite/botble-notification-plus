@@ -2,22 +2,33 @@
 
 namespace ArchiElite\NotificationPlus\Drivers;
 
-use ArchiElite\NotificationPlus\Contracts\Provider;
+use ArchiElite\NotificationPlus\AbstractDriver;
+use ArchiElite\NotificationPlus\Http\Requests\SlackSettingRequest;
 use Illuminate\Support\Facades\Http;
-use InvalidArgumentException;
 
-class Slack implements Provider
+class Slack extends AbstractDriver
 {
-    public function __construct(protected string $webhookUrl)
-    {
-        if (empty($this->webhookUrl)) {
-            throw new InvalidArgumentException('Webhook URL is required');
-        }
-    }
+    protected string $validatorClass = SlackSettingRequest::class;
+
+    protected string $viewPath = 'plugins/notification-plus::settings.slack';
 
     public function send(string $message): array
     {
-        $response = Http::asJson()->post($this->webhookUrl, [
+        if (! $this->isEnabled()) {
+            return [
+                'success' => false,
+                'message' => 'Slack notification is not enabled',
+            ];
+        }
+
+        if (! $this->getSetting('webhook_url')) {
+            return [
+                'success' => false,
+                'message' => 'Webhook URL is not set',
+            ];
+        }
+
+        $response = Http::asJson()->post($this->getSetting('webhook_url'), [
             'text' => $message,
         ]);
 
