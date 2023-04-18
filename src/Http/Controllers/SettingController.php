@@ -19,7 +19,10 @@ class SettingController extends BaseController
     {
         PageTitle::setTitle(trans('plugins/notification-plus::notification-plus.name'));
 
-        Assets::addScriptsDirectly('vendor/core/plugins/notification-plus/js/notification-plus.js');
+        Assets::addScriptsDirectly([
+            'vendor/core/core/js-validation/js/js-validation.js',
+            'vendor/core/plugins/notification-plus/js/notification-plus.js',
+        ]);
 
         return view('plugins/notification-plus::settings');
     }
