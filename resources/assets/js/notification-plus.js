@@ -106,7 +106,7 @@ class TelegramSettingManagement {
             })
         })
 
-        $('input[name="notification_telegram_bot_token"]').on('change', (event) => {
+        $('input[name="ae_notification_plus_telegram_bot_token"]').on('change', (event) => {
             if ($(event.currentTarget).val()) {
                 $('.telegram-chat-id-wrapper').show()
             } else {
