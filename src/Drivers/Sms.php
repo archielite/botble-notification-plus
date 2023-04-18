@@ -2,31 +2,45 @@
 
 namespace ArchiElite\NotificationPlus\Drivers;
 
-use ArchiElite\NotificationPlus\Contracts\Provider;
+use ArchiElite\NotificationPlus\AbstractDriver;
+use ArchiElite\NotificationPlus\Http\Requests\SmsSettingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
-use InvalidArgumentException;
 
-class Sms implements Provider
+class Sms extends AbstractDriver
 {
-    public function __construct(
-        protected string $apiKey,
-        protected string $apiSecret,
-        protected string $from,
-        protected string $to,
-    ) {
-        if (empty($this->apiKey) || empty($this->apiSecret) || empty($this->from) || empty($this->to)) {
-            throw new InvalidArgumentException('Missing required parameters');
-        }
-    }
+    protected string $validatorClass = SmsSettingRequest::class;
+
+    protected string $viewPath = 'plugins/notification-plus::settings.sms';
 
     public function send(string $message): array
     {
+        if (! $this->isEnabled()) {
+            return [
+                'success' => false,
+                'message' => 'SMS is not enabled',
+            ];
+        }
+
+        if (! $this->getSetting('api_key') || ! $this->getSetting('api_secret')) {
+            return [
+                'success' => false,
+                'message' => 'API key or secret is not set',
+            ];
+        }
+
+        if (! $this->getSetting('from') || ! $this->getSetting('to')) {
+            return [
+                'success' => false,
+                'message' => 'From or to is not set',
+            ];
+        }
+
         $response = Http::post('https://rest.nexmo.com/sms/json', [
-            'api_key' => $this->apiKey,
-            'api_secret' => $this->apiSecret,
-            'from' => $this->from,
-            'to' => $this->to,
+            'api_key' => $this->getSetting('api_key'),
+            'api_secret' => $this->getSetting('api_secret'),
+            'from' => $this->getSetting('from'),
+            'to' => $this->getSetting('to'),
             'text' => $message,
         ]);
 

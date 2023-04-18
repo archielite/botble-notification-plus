@@ -2,48 +2,52 @@
 
 namespace ArchiElite\NotificationPlus;
 
-use ArchiElite\NotificationPlus\Contracts\Factory;
-use ArchiElite\NotificationPlus\Drivers\Sms;
-use ArchiElite\NotificationPlus\Drivers\Slack;
-use ArchiElite\NotificationPlus\Drivers\Telegram;
-use ArchiElite\NotificationPlus\Drivers\WhatsApp;
-use ArchiElite\NotificationPlus\Services\Telegram as TelegramService;
-use Illuminate\Support\Manager;
-use InvalidArgumentException;
+use ArchiElite\NotificationPlus\Contracts\NotificationManager as NotificationManagerContract;
 
-class NotificationManager extends Manager implements Factory
+class NotificationManager implements NotificationManagerContract
 {
-    protected function createTelegramDriver(): Telegram
+    protected array $drivers = [];
+
+    public function register(string $driver): void
     {
-        return new Telegram(new TelegramService());
+        $this->drivers[] = $driver;
     }
 
-    protected function createSlackDriver(): Slack
+    public function driver(string $driver): AbstractDriver
     {
-        return new Slack(setting('ae_notification_plus_slack_webhook_url') ?? '');
+        return app($driver);
     }
 
-    protected function createWhatsappDriver(): WhatsApp
+    public function sendNotifications(string $message): void
     {
-        return new WhatsApp(
-            setting('ae_notification_plus_whatsapp_phone_number_id') ?? '',
-            setting('ae_notification_plus_whatsapp_to_phone_number') ?? '',
-            setting('ae_notification_plus_whatsapp_access_token') ?? ''
-        );
+        foreach ($this->drivers as $driver) {
+            $this->driver($driver)->send($message);
+        }
     }
 
-    protected function createSmsDriver(): Sms
+    public function getSetting(string $driver, string $key, string|null|bool $default = null): string|null
     {
-        return new Sms(
-            setting('ae_notification_plus_sms_vonage_api_key') ?? '',
-            setting('ae_notification_plus_sms_vonage_api_secret') ?? '',
-            setting('ae_notification_plus_sms_vonage_from') ?? '',
-            setting('ae_notification_plus_sms_vonage_to') ?? ''
-        );
+        return setting('ae_notification_plus_' . $driver . '_' . $key, $default);
     }
 
-    public function getDefaultDriver(): void
+    public function getSettingKey(string $driver, string $key): string
     {
-        throw new InvalidArgumentException('No notification driver was specified.');
+        return 'ae_notification_plus[' . $driver . '][' . $key . ']';
+    }
+
+    public function settings(): string
+    {
+        $html = '';
+
+        foreach ($this->drivers as $driver) {
+            $html .= $this->driver($driver)->settings();
+        }
+
+        return $html;
+    }
+
+    public function getAvailableDrivers(): array
+    {
+        return $this->drivers;
     }
 }

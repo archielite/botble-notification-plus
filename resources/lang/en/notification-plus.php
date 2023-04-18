@@ -3,11 +3,14 @@
 return [
     'name' => 'Notification Plus',
 
+    'settings' => [
+        'enable' => 'Enable?',
+    ],
+
     'telegram' => [
         'settings' => [
             'title' => 'Telegram settings',
             'description' => 'Telegram bots, send notifications to Telegram channel. You can create bot by following this :link.',
-            'enable' => 'Enable Telegram?',
             'bot_token' => 'Bot Token',
             'chat_id' => 'Chat ID',
             'bot_token_instruction' => 'Chat with :link to get bot token.',
@@ -20,7 +23,6 @@ return [
         'settings' => [
             'title' => 'Slack settings',
             'description' => 'By following this :link, you can create a new app in Slack and add a webhook to your channel.',
-            'enable' => 'Enable Slack?',
             'webhook_url' => 'Webhook URL',
             'webhook_url_instruction' => 'Create a new app in Slack and add a webhook to your channel.',
         ],

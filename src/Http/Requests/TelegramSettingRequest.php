@@ -2,17 +2,17 @@
 
 namespace ArchiElite\NotificationPlus\Http\Requests;
 
-use Botble\Support\Http\Requests\Request;
+use ArchiElite\NotificationPlus\Drivers\Telegram;
 use Illuminate\Validation\Rule;
 
-class TelegramSettingRequest extends Request
+class TelegramSettingRequest extends SettingRequest
 {
     public function rules(): array
     {
         return [
-            'ae_notification_plus.telegram_bot_token' => ['required', 'string'],
-            'ae_notification_plus.telegram_chat_id' => [
-                Rule::requiredIf(fn () => $this->input('ae_notification_plus.telegram_bot_token') !== ''),
+            $this->inputKey(Telegram::class, 'bot_token') => ['required', 'string'],
+            $this->inputKey(Telegram::class, 'chat_id') => [
+                Rule::requiredIf(fn () => $this->inputKey(Telegram::class, 'bot_token') !== ''),
                 'string',
             ],
         ];
@@ -21,8 +21,8 @@ class TelegramSettingRequest extends Request
     public function attributes(): array
     {
         return [
-            'ae_notification_plus.telegram_bot_token' => __('Telegram Bot Token'),
-            'ae_notification_plus.telegram_chat_id' => __('Telegram Chat ID'),
+            $this->inputKey(Telegram::class, 'bot_token') => __('Telegram Bot Token'),
+            $this->inputKey(Telegram::class, 'chat_id') => __('Telegram Chat ID'),
         ];
     }
 }

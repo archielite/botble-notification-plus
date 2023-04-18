@@ -2,30 +2,45 @@
 
 namespace ArchiElite\NotificationPlus\Drivers;
 
-use ArchiElite\NotificationPlus\Contracts\Provider;
+use ArchiElite\NotificationPlus\AbstractDriver;
+use ArchiElite\NotificationPlus\Http\Requests\WhatsAppSettingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
-use InvalidArgumentException;
 
-class WhatsApp implements Provider
+class WhatsApp extends AbstractDriver
 {
-    public function __construct(
-        protected string $phoneNumberId,
-        protected string $toPhoneNumber,
-        protected string $accessToken,
-    ) {
-        if (empty($this->phoneNumberId) || empty($this->toPhoneNumber) || empty($this->accessToken)) {
-            throw new InvalidArgumentException('Missing required parameters');
-        }
-    }
+    protected string $validatorClass = WhatsAppSettingRequest::class;
+
+    protected string $viewPath = 'plugins/notification-plus::settings.whatsapp';
 
     public function send(string $message): array
     {
+        if (! $this->isEnabled()) {
+            return [
+                'success' => false,
+                'message' => 'WhatsApp notification is not enabled',
+            ];
+        }
+
+        if (! $this->getSetting('access_token')) {
+            return [
+                'success' => false,
+                'message' => 'Access token is not set',
+            ];
+        }
+
+        if (! $this->getSetting('phone_number_id') || ! $this->getSetting('to_phone_number')) {
+            return [
+                'success' => false,
+                'message' => 'Phone number ID or to phone number is not set',
+            ];
+        }
+
         $response = Http::asJson()
-            ->withToken(setting('ae_notification_plus_whatsapp_access_token'))
-            ->post("https://graph.facebook.com/v16.0/$this->phoneNumberId/messages", [
+            ->withToken($this->getSetting('access_token'))
+            ->post("https://graph.facebook.com/v16.0/{$this->getSetting('phone_number_id')}/messages", [
                 'messaging_product' => 'whatsapp',
-                'to' => $this->toPhoneNumber,
+                'to' => $this->getSetting('to_phone_number'),
                 'type' => 'text',
                 'text' => [
                     'body' => $message,

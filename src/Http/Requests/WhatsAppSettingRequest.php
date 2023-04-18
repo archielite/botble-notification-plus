@@ -2,25 +2,26 @@
 
 namespace ArchiElite\NotificationPlus\Http\Requests;
 
-use Botble\Support\Http\Requests\Request;
+use ArchiElite\NotificationPlus\Drivers\WhatsApp;
+use Botble\Base\Facades\BaseHelper;
 
-class WhatsAppSettingRequest extends Request
+class WhatsAppSettingRequest extends SettingRequest
 {
     public function rules(): array
     {
         return [
-            'ae_notification_plus.whatsapp_phone_number_id' => ['required', 'string'],
-            'ae_notification_plus.whatsapp_to_phone_number' => ['required', 'string'],
-            'ae_notification_plus.whatsapp_access_token' => ['required', 'string'],
+            $this->inputKey(WhatsApp::class, 'phone_number_id') => ['required', 'string', 'min:10'],
+            $this->inputKey(WhatsApp::class, 'to_phone_number') => ['required', 'string', BaseHelper::getPhoneValidationRule()],
+            $this->inputKey(WhatsApp::class, 'access_token') => ['required', 'string'],
         ];
     }
 
     public function attributes(): array
     {
         return [
-            'ae_notification_plus.whatsapp_phone_number_id' => __('Phone Number ID'),
-            'ae_notification_plus.whatsapp_to_phone_number' => __('To Phone Number'),
-            'ae_notification_plus.whatsapp_access_token' => __('Access Token'),
+            $this->inputKey(WhatsApp::class, 'phone_number_id') => __('Phone Number ID'),
+            $this->inputKey(WhatsApp::class, 'to_phone_number') => __('To Phone Number'),
+            $this->inputKey(WhatsApp::class, 'access_token') => __('Access Token'),
         ];
     }
 }

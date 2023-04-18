@@ -20,7 +20,7 @@ class NotificationPlus {
             await this.openSendTestMessageModal(event)
         })
 
-        $('#send-test-message-modal').on('click', '#send-test-message', (event) => {
+        $('#send-test-message-modal').on('click', 'button[type="submit"]', (event) => {
             this.sendTestMessage(event)
         })
 
