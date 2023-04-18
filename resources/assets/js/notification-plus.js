@@ -76,6 +76,8 @@ class TelegramSettingManagement {
 
             const $currentTarget = $(event.currentTarget)
 
+            this.saveSettings($currentTarget)
+
             $.ajax({
                 type: 'POST',
                 url: route('notification-plus.get-telegram-chat-ids'),
@@ -102,6 +104,14 @@ class TelegramSettingManagement {
                     $currentTarget.removeClass('button-loading')
                 }
             })
+        })
+
+        $('input[name="notification_telegram_bot_token"]').on('change', (event) => {
+            if ($(event.currentTarget).val()) {
+                $('.telegram-chat-id-wrapper').show()
+            } else {
+                $('.telegram-chat-id-wrapper').hide()
+            }
         })
     }
 

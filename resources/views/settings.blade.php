@@ -31,7 +31,7 @@
                                 {!! Form::helper(trans('plugins/notification-plus::notification-plus.telegram.settings.bot_token_instruction', ['link' => Html::link('https://t.me/BotFather', '@BotFather', ['target' => '_blank'])->toHtml()])) !!}
                             </div>
 
-                            <div class="mb-3">
+                            <div class="mb-3 telegram-chat-id-wrapper" style="display: none">
                                 <div class="input-group">
                                     <input type="text" name="notification_telegram_chat_id" class="form-control next-input" value="{{ setting('ae_notification_plus_telegram_chat_id') }}" placeholder="E.g: -1001824073962">
                                     <button type="button" class="btn btn-warning" id="get-telegram-chat-ids">
