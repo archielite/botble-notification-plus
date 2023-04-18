@@ -7,6 +7,7 @@ use ArchiElite\NotificationPlus\Contracts\Factory;
 use ArchiElite\NotificationPlus\NotificationManager;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Routing\Events\RouteMatched;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
@@ -40,6 +41,8 @@ class NotificationPlusServiceProvider extends ServiceProvider implements Deferra
                 'permissions' => ['notification-plus.settings'],
             ]);
         });
+
+        Blade::anonymousComponentPath(__DIR__ . '/../../resources/views/components', 'notification-plus');
     }
 
     public function provides(): array
