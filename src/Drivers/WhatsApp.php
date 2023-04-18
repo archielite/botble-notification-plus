@@ -14,7 +14,7 @@ class WhatsApp implements Provider
         protected string $toPhoneNumber,
         protected string $accessToken,
     ) {
-        if (isset($this->phoneNumberId) || isset($this->toPhoneNumber) || isset($this->accessToken)) {
+        if (empty($this->phoneNumberId) || empty($this->toPhoneNumber) || empty($this->accessToken)) {
             throw new InvalidArgumentException('Missing required parameters');
         }
     }
