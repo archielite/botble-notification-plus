@@ -32,7 +32,6 @@ return [
         'settings' => [
             'title' => 'WhatsApp settings',
             'description' => 'To send WhatsApp messages, you need to create a WhatsApp Business account at :link and get an access token.',
-            'enable' => 'Enable WhatsApp?',
             'access_token' => 'Access Token',
             'phone_number_id' => 'Phone Number ID',
             'to_phone_number' => 'To Phone Number',
@@ -44,7 +43,6 @@ return [
         'settings' => [
             'title' => 'SMS settings',
             'description' => 'To send SMS messages, you need to create a Vonage account at :link and get an API key and secret.',
-            'enable' => 'Enable SMS?',
             'vonage' => [
                 'api_key' => 'API Key',
                 'api_key_instruction' => 'You can get your API key and secret from the Vonage API dashboard.',
