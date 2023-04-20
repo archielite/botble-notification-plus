@@ -18,13 +18,6 @@ class NotificationManager implements NotificationManagerContract
         return app($driver);
     }
 
-    public function sendNotifications(string $message): void
-    {
-        foreach ($this->drivers as $driver) {
-            $this->driver($driver)->send($message);
-        }
-    }
-
     public function getSetting(string $driver, string $key, string|null|bool $default = null): string|null
     {
         return setting('ae_notification_plus_' . $driver . '_' . $key, $default);
@@ -48,6 +41,18 @@ class NotificationManager implements NotificationManagerContract
 
     public function getAvailableDrivers(): array
     {
-        return $this->drivers;
+        $drivers = [];
+
+        foreach ($this->drivers as $name) {
+            $driver = $this->driver($name);
+
+            if (! $driver->isEnabled()) {
+                continue;
+            }
+
+            $drivers[] = $name;
+        }
+
+        return $drivers;
     }
 }

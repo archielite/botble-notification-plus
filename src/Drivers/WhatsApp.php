@@ -4,7 +4,6 @@ namespace ArchiElite\NotificationPlus\Drivers;
 
 use ArchiElite\NotificationPlus\AbstractDriver;
 use ArchiElite\NotificationPlus\Http\Requests\WhatsAppSettingRequest;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 class WhatsApp extends AbstractDriver
@@ -13,7 +12,7 @@ class WhatsApp extends AbstractDriver
 
     protected string $viewPath = 'plugins/notification-plus::settings.whatsapp';
 
-    public function send(string $message): array
+    public function send(string $message, array $data = []): array
     {
         if (! $this->isEnabled()) {
             return [
@@ -47,12 +46,10 @@ class WhatsApp extends AbstractDriver
                 ],
             ]);
 
-        $data = $response->json();
-
-        if (Arr::has($data, 'error')) {
+        if ($response->json('error')) {
             return [
                 'success' => false,
-                'message' => Arr::get($data, 'error.message'),
+                'message' => $response->json('error.message'),
             ];
         }
 
