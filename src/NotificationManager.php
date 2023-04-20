@@ -18,24 +18,6 @@ class NotificationManager implements NotificationManagerContract
         return app($driver);
     }
 
-    public function sendNotifications(string $key, array $data = []): void
-    {
-        switch ($key) {
-            case 'shipping-status-changed':
-                $message = __('The shipping status of your order :order_id has been changed to :status.', $data);
-
-                break;
-            default:
-                $message = $key;
-
-                break;
-        }
-
-        foreach ($this->drivers as $driver) {
-            $this->driver($driver)->send($message, $data);
-        }
-    }
-
     public function getSetting(string $driver, string $key, string|null|bool $default = null): string|null
     {
         return setting('ae_notification_plus_' . $driver . '_' . $key, $default);
