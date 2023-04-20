@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @method static void register(string $driver)
  * @method static \ArchiElite\NotificationPlus\AbstractDriver driver(string $driver)
- * @method static void sendNotifications(string $message)
+ * @method static void sendNotifications(string $key, array $data = [])
  * @method static string|null getSetting(string $driver, string $key, string|bool|null $default = null)
  * @method static string getSettingKey(string $driver, string $key)
  * @method static string settings()

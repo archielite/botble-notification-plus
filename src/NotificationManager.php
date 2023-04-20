@@ -18,10 +18,21 @@ class NotificationManager implements NotificationManagerContract
         return app($driver);
     }
 
-    public function sendNotifications(string $message): void
+    public function sendNotifications(string $key, array $data = []): void
     {
+        switch ($key) {
+            case 'shipping-status-changed':
+                $message = __('The shipping status of your order :order_id has been changed to :status.', $data);
+
+                break;
+            default:
+                $message = $key;
+
+                break;
+        }
+
         foreach ($this->drivers as $driver) {
-            $this->driver($driver)->send($message);
+            $this->driver($driver)->send($message, $data);
         }
     }
 
@@ -48,6 +59,18 @@ class NotificationManager implements NotificationManagerContract
 
     public function getAvailableDrivers(): array
     {
-        return $this->drivers;
+        $drivers = [];
+
+        foreach ($this->drivers as $name) {
+            $driver = $this->driver($name);
+
+            if (! $driver->isEnabled()) {
+                continue;
+            }
+
+            $drivers[] = $name;
+        }
+
+        return $drivers;
     }
 }

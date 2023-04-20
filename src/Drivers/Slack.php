@@ -12,7 +12,7 @@ class Slack extends AbstractDriver
 
     protected string $viewPath = 'plugins/notification-plus::settings.slack';
 
-    public function send(string $message): array
+    public function send(string $message, array $data = []): array
     {
         if (! $this->isEnabled()) {
             return [
@@ -28,14 +28,12 @@ class Slack extends AbstractDriver
             ];
         }
 
-        $response = Http::asJson()->post($this->getSetting('webhook_url'), [
-            'text' => $message,
-        ]);
+        $response = Http::asJson()->post($this->getSetting('webhook_url'), $data);
 
         if ($response->body() !== 'ok') {
             return [
                 'success' => false,
-                'message' => $response->reason(),
+                'message' => $response->reason() ?: $response->body(),
             ];
         }
 

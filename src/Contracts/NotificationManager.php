@@ -10,7 +10,7 @@ interface NotificationManager
 
     public function driver(string $driver): AbstractDriver;
 
-    public function sendNotifications(string $message): void;
+    public function sendNotifications(string $key, array $data = []): void;
 
     public function getSetting(string $driver, string $key, string|null|bool $default = null): string|null;
 

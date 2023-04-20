@@ -19,5 +19,6 @@
         <label class="text-title-field">{{ trans('plugins/notification-plus::notification-plus.whatsapp.settings.to_phone_number') }}</label>
         <input type="text" name="{{ NotificationPlus::getSettingKey($name, 'to_phone_number') }}" class="next-input" value="{{ NotificationPlus::getSetting($name, 'to_phone_number') }}" placeholder="84xxxxxxxx" />
         {!! Form::helper(trans('plugins/notification-plus::notification-plus.whatsapp.settings.to_phone_number_instruction')) !!}
+        {!! Form::helper(__('If you don\'t have received any message from the bot, please reply to the message from the bot with any word to mark it as not spam.')) !!}
     </div>
 </x-notification-plus::setting-form>
