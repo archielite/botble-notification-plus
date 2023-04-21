@@ -16,7 +16,7 @@ class Telegram extends AbstractDriver
 
     protected string $viewPath = 'plugins/notification-plus::settings.telegram';
 
-    public function send(string $message): array
+    public function send(string $message, array $data = []): array
     {
         if (! $this->isEnabled()) {
             return [
@@ -32,12 +32,12 @@ class Telegram extends AbstractDriver
             ];
         }
 
-        $data = $this->sendMessage($message);
+        $response = $this->sendMessage($message);
 
-        if (Arr::get($data, 'ok') !== true) {
+        if (Arr::get($response, 'ok') !== true) {
             return [
                 'success' => false,
-                'message' => Arr::get($data, 'description'),
+                'message' => Arr::get($response, 'description'),
             ];
         }
 
@@ -77,7 +77,12 @@ class Telegram extends AbstractDriver
         $response = $this->request('POST', 'sendMessage', [
             'chat_id' => $this->getSetting('chat_id'),
             'text' => $message,
+            'parse_mode' => 'HTML',
         ]);
+
+        if (! $response->json('ok')) {
+            logger()->error($response->json());
+        }
 
         return $response->json();
     }

@@ -13,7 +13,7 @@ class Vonage extends AbstractDriver
 
     protected string $viewPath = 'plugins/notification-plus::settings.vonage';
 
-    public function send(string $message): array
+    public function send(string $message, array $data = []): array
     {
         if (! $this->isEnabled()) {
             return [
@@ -42,12 +42,10 @@ class Vonage extends AbstractDriver
             'text' => $message,
         ]);
 
-        $data = $response->json();
-
-        if (Arr::get($data, 'messages.0.status') != 0) {
+        if (Arr::get($response->json('data'), 'messages.0.status') != 0) {
             return [
                 'success' => false,
-                'message' => Arr::get($data, 'messages.0.error-text'),
+                'message' => Arr::get($response->json('data'), 'messages.0.error-text'),
             ];
         }
 
