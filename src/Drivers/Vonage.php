@@ -3,44 +3,42 @@
 namespace ArchiElite\NotificationPlus\Drivers;
 
 use ArchiElite\NotificationPlus\AbstractDriver;
-use ArchiElite\NotificationPlus\Http\Requests\SmsSettingRequest;
+use ArchiElite\NotificationPlus\Http\Requests\VonageSettingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
-class Sms extends AbstractDriver
+class Vonage extends AbstractDriver
 {
-    protected string $validatorClass = SmsSettingRequest::class;
+    protected string $validatorClass = VonageSettingRequest::class;
 
-    protected string $viewPath = 'plugins/notification-plus::settings.sms';
+    protected string $viewPath = 'plugins/notification-plus::settings.vonage';
 
     public function send(string $message): array
     {
         if (! $this->isEnabled()) {
             return [
                 'success' => false,
-                'message' => 'SMS is not enabled',
+                'message' => 'Vonage is not enabled',
             ];
         }
 
-        if (! $this->getSetting('api_key') || ! $this->getSetting('api_secret')) {
-            return [
-                'success' => false,
-                'message' => 'API key or secret is not set',
-            ];
-        }
+        $apiKey = $this->getSetting('api_key');
+        $apiSecret = $this->getSetting('api_secret');
+        $from = $this->getSetting('from');
+        $to = $this->getSetting('to');
 
-        if (! $this->getSetting('from') || ! $this->getSetting('to')) {
+        if (! $apiKey || ! $apiSecret || ! $from || ! $to) {
             return [
                 'success' => false,
-                'message' => 'From or to is not set',
+                'message' => 'Vonage is not configured',
             ];
         }
 
         $response = Http::post('https://rest.nexmo.com/sms/json', [
-            'api_key' => $this->getSetting('api_key'),
-            'api_secret' => $this->getSetting('api_secret'),
-            'from' => $this->getSetting('from'),
-            'to' => $this->getSetting('to'),
+            'api_key' => $apiKey,
+            'api_secret' => $apiSecret,
+            'from' => $from,
+            'to' => $to,
             'text' => $message,
         ]);
 
