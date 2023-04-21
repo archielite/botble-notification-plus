@@ -39,20 +39,32 @@ return [
         ],
     ],
 
-    'sms' => [
+    'vonage' => [
         'settings' => [
-            'title' => 'SMS settings',
-            'description' => 'To send SMS messages, you need to create a Vonage account at :link and get an API key and secret.',
-            'vonage' => [
-                'api_key' => 'API Key',
-                'api_key_instruction' => 'You can get your API key and secret from the Vonage API dashboard.',
-                'api_secret' => 'API Secret',
-                'from' => 'From',
-                'from_instruction' => 'The name or number the message should be sent from.',
-                'to' => 'To',
-                'to_instruction' => 'The number that the message should be sent to. Numbers are specified in E.164 format.',
-            ]
+            'title' => 'Vonage settings',
+            'description' => 'To send SMS messages, you need to create a Vonage account at :link and get API key and secret.',
+            'api_key' => 'API Key',
+            'api_key_instruction' => 'You can get your API key and secret from the Vonage API dashboard.',
+            'api_secret' => 'API Secret',
+            'from' => 'From',
+            'from_instruction' => 'The name or number the message should be sent from.',
+            'to' => 'To',
+            'to_instruction' => 'The number that the message should be sent to. Numbers are specified in E.164 format.',
         ],
+    ],
+
+    'twilio' => [
+        'settings' => [
+            'title' => 'Twilio settings',
+            'description' => 'To send SMS messages, you need to create a Twilio account at :link and get account sid and auth token.',
+            'account_sid' => 'Account SID',
+            'account_sid_instruction' => 'You can get your Account SID and Auth Token from the Twilio Console.',
+            'auth_token' => 'Auth Token',
+            'from' => 'Send from',
+            'to' => 'Send to',
+            'from_instruction' => 'Your Twilio phone number.',
+            'to_instruction' => 'The number that the message should be sent to.',
+        ]
     ],
 
     'send_test_message' => [

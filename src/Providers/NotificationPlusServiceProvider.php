@@ -3,8 +3,9 @@
 namespace ArchiElite\NotificationPlus\Providers;
 
 use ArchiElite\NotificationPlus\Drivers\Slack;
-use ArchiElite\NotificationPlus\Drivers\Sms;
+use ArchiElite\NotificationPlus\Drivers\Vonage;
 use ArchiElite\NotificationPlus\Drivers\Telegram;
+use ArchiElite\NotificationPlus\Drivers\Twilio;
 use ArchiElite\NotificationPlus\Drivers\WhatsApp;
 use ArchiElite\NotificationPlus\Facades\NotificationPlus;
 use Botble\Base\Traits\LoadAndPublishDataTrait;
@@ -53,7 +54,8 @@ class NotificationPlusServiceProvider extends ServiceProvider implements Deferra
             $notificationManager->register(Telegram::class);
             $notificationManager->register(Slack::class);
             $notificationManager->register(WhatsApp::class);
-            $notificationManager->register(Sms::class);
+            $notificationManager->register(Vonage::class);
+            $notificationManager->register(Twilio::class);
         });
 
         $this->app['blade.compiler']->anonymousComponentPath($this->getViewsPath() . '/components', 'notification-plus');
