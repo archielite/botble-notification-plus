@@ -48,7 +48,7 @@ class NotificationPlus {
         })
     }
 
-    async saveSettings($button) {
+    async saveSettings($button, showSuccess = true) {
         const $form = $button.closest('form')
 
         await $.ajax({
@@ -66,7 +66,9 @@ class NotificationPlus {
                     return
                 }
 
-                Botble.showSuccess(message)
+                if (showSuccess) {
+                    Botble.showSuccess(message)
+                }
 
                 $form.find('.send-test-message').removeClass('d-none')
             },
@@ -85,7 +87,7 @@ class NotificationPlus {
 
         const $currentTarget = $(event.currentTarget)
 
-        await this.saveSettings($currentTarget)
+        await this.saveSettings($currentTarget, false)
 
         $.ajax({
             type: 'POST',

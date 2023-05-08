@@ -14,8 +14,9 @@ return [
             'bot_token' => 'Bot Token',
             'chat_id' => 'Chat ID',
             'bot_token_instruction' => 'Chat with :link to get bot token.',
-            'chat_id_instruction' => 'Add bot to your group to get chat IDs. After that, you can click to "Get Chat Ids" to choose which group to send notifications.',
+            'chat_id_instruction' => 'Add bot to your group to get chat IDs. After that, you can click to "Get Chat Ids" to choose which group to send notifications. If you cannot get chat IDs, try to send a message to your group.',
             'get_chat_ids' => 'Get Chat IDs',
+            'cannot_get_chat_ids' => 'Cannot get Chat IDs. Please add bot to your group and send at least one message to the group.',
         ],
     ],
 

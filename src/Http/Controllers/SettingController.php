@@ -71,6 +71,12 @@ class SettingController extends BaseController
     {
         $chatIds = $telegram->getChatIds();
 
+        if (empty($chatIds)) {
+            return $response
+                ->setError()
+                ->setMessage(trans('plugins/notification-plus::notification-plus.telegram.settings.cannot_get_chat_ids'));
+        }
+
         return $response
             ->setData($chatIds);
     }
