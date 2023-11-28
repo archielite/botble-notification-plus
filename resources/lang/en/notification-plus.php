@@ -2,6 +2,7 @@
 
 return [
     'name' => 'Notification Plus',
+    'description' => 'Send notifications to Telegram, Slack, WhatsApp, Vonage, Twilio.',
 
     'settings' => [
         'enable' => 'Enable?',

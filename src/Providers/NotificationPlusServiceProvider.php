@@ -2,18 +2,20 @@
 
 namespace ArchiElite\NotificationPlus\Providers;
 
+use ArchiElite\NotificationPlus\Contracts\NotificationManager as NotificationManagerContract;
 use ArchiElite\NotificationPlus\Drivers\Slack;
-use ArchiElite\NotificationPlus\Drivers\Vonage;
 use ArchiElite\NotificationPlus\Drivers\Telegram;
 use ArchiElite\NotificationPlus\Drivers\Twilio;
+use ArchiElite\NotificationPlus\Drivers\Vonage;
 use ArchiElite\NotificationPlus\Drivers\WhatsApp;
 use ArchiElite\NotificationPlus\Facades\NotificationPlus;
-use Botble\Base\Traits\LoadAndPublishDataTrait;
-use ArchiElite\NotificationPlus\Contracts\NotificationManager as NotificationManagerContract;
 use ArchiElite\NotificationPlus\NotificationManager;
+use Botble\Base\Facades\PanelSectionManager;
+use Botble\Base\PanelSections\PanelSectionItem;
+use Botble\Base\Traits\LoadAndPublishDataTrait;
+use Botble\Setting\PanelSections\SettingOthersPanelSection;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\ServiceProvider;
 
 class NotificationPlusServiceProvider extends ServiceProvider implements DeferrableProvider
@@ -35,18 +37,20 @@ class NotificationPlusServiceProvider extends ServiceProvider implements Deferra
             ->loadRoutes()
             ->loadAndPublishViews()
             ->loadAndPublishTranslations()
+            ->loadAnonymousComponents()
             ->publishAssets();
 
-        $this->app['events']->listen(RouteMatched::class, function () {
-            dashboard_menu()->registerItem([
-                'id' => 'cms-plugins-notification-plus',
-                'parent_id' => 'cms-core-settings',
-                'priority' => 5,
-                'name' => 'plugins/notification-plus::notification-plus.name',
-                'icon' => null,
-                'url' => route('notification-plus.settings'),
-                'permissions' => ['notification-plus.settings'],
-            ]);
+        PanelSectionManager::default()->beforeRendering(function () {
+            PanelSectionManager::registerItem(
+                SettingOthersPanelSection::class,
+                fn () => PanelSectionItem::make('notification-plus')
+                    ->setTitle(trans('plugins/notification-plus::notification-plus.name'))
+                    ->withIcon('ti ti-bell')
+                    ->withDescription(trans('plugins/notification-plus::notification-plus.description'))
+                    ->withPriority(990)
+                    ->withPermission('notification-plus.settings')
+                    ->withRoute('notification-plus.settings')
+            );
         });
 
         $this->app->booted(function () {
@@ -57,8 +61,6 @@ class NotificationPlusServiceProvider extends ServiceProvider implements Deferra
             $notificationManager->register(Vonage::class);
             $notificationManager->register(Twilio::class);
         });
-
-        $this->app['blade.compiler']->anonymousComponentPath($this->getViewsPath() . '/components', 'notification-plus');
     }
 
     public function provides(): array

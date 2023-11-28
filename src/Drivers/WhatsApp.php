@@ -3,13 +3,10 @@
 namespace ArchiElite\NotificationPlus\Drivers;
 
 use ArchiElite\NotificationPlus\AbstractDriver;
-use ArchiElite\NotificationPlus\Http\Requests\WhatsAppSettingRequest;
 use Illuminate\Support\Facades\Http;
 
 class WhatsApp extends AbstractDriver
 {
-    protected string $validatorClass = WhatsAppSettingRequest::class;
-
     protected string $viewPath = 'plugins/notification-plus::settings.whatsapp';
 
     public function send(string $message, array $data = []): array

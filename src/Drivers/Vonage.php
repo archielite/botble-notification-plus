@@ -3,14 +3,11 @@
 namespace ArchiElite\NotificationPlus\Drivers;
 
 use ArchiElite\NotificationPlus\AbstractDriver;
-use ArchiElite\NotificationPlus\Http\Requests\VonageSettingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 class Vonage extends AbstractDriver
 {
-    protected string $validatorClass = VonageSettingRequest::class;
-
     protected string $viewPath = 'plugins/notification-plus::settings.vonage';
 
     public function send(string $message, array $data = []): array

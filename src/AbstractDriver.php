@@ -8,8 +8,6 @@ use Illuminate\Support\Str;
 
 abstract class AbstractDriver
 {
-    protected string $validatorClass;
-
     protected string $viewPath;
 
     abstract public function send(string $message, array $data = []): array;
@@ -19,7 +17,6 @@ abstract class AbstractDriver
         return view($this->viewPath, [
             'name' => $this->getName(),
             'driver' => get_class($this),
-            'validator' => $this->validatorClass,
         ])->render();
     }
 

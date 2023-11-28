@@ -3,13 +3,10 @@
 namespace ArchiElite\NotificationPlus\Drivers;
 
 use ArchiElite\NotificationPlus\AbstractDriver;
-use ArchiElite\NotificationPlus\Http\Requests\SlackSettingRequest;
 use Illuminate\Support\Facades\Http;
 
 class Slack extends AbstractDriver
 {
-    protected string $validatorClass = SlackSettingRequest::class;
-
     protected string $viewPath = 'plugins/notification-plus::settings.slack';
 
     public function send(string $message, array $data = []): array
@@ -30,7 +27,7 @@ class Slack extends AbstractDriver
 
         $response = Http::asJson()->post($this->getSetting('webhook_url'), $data);
 
-        if ($response->body() !== 'ok') {
+        if ($response->failed()) {
             return [
                 'success' => false,
                 'message' => $response->reason() ?: $response->body(),
