@@ -28,7 +28,7 @@ class NotificationPlusSettingController extends SettingController
             $driver = str($key)->afterLast('archi-elite-notification-plus-drivers-')->toString();
 
             foreach ($value as $settingKey => $settingValue) {
-                $data["ae_notification_plus_{$driver}_{$settingKey}"] = $settingValue;
+                $data["ae_notification_plus_archi-elite-notification-plus-drivers-{$driver}_{$settingKey}"] = $settingValue;
             }
         }
 
