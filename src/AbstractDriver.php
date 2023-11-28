@@ -4,7 +4,6 @@ namespace ArchiElite\NotificationPlus;
 
 use ArchiElite\NotificationPlus\Facades\NotificationPlus;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 abstract class AbstractDriver
 {
@@ -35,7 +34,7 @@ abstract class AbstractDriver
 
     public function getName(): string
     {
-        return Str::slug(Str::snake(get_class($this)));
+        return str($this::class)->afterLast('\\')->lower()->toString();
     }
 
     public function getShortName(): string
