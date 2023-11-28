@@ -30,7 +30,7 @@ class NotificationPlusSettingRequest extends Request
 
     public function getSlackValidation(): array
     {
-        if (!$this->boolean($this->inputKey(Slack::class, 'enable'))) {
+        if (! $this->boolean($this->inputKey(Slack::class, 'enable'))) {
             return [];
         }
 
@@ -41,7 +41,7 @@ class NotificationPlusSettingRequest extends Request
 
     public function getTelegramValidation(): array
     {
-        if (!$this->boolean($this->inputKey(Telegram::class, 'enable'))) {
+        if (! $this->boolean($this->inputKey(Telegram::class, 'enable'))) {
             return [];
         }
 
@@ -56,7 +56,7 @@ class NotificationPlusSettingRequest extends Request
 
     public function getTwilioValidation(): array
     {
-        if (!$this->boolean($this->inputKey(Twilio::class, 'enable'))) {
+        if (! $this->boolean($this->inputKey(Twilio::class, 'enable'))) {
             return [];
         }
 
@@ -70,7 +70,7 @@ class NotificationPlusSettingRequest extends Request
 
     public function getVonageValidation(): array
     {
-        if (!$this->boolean($this->inputKey(Vonage::class, 'enable'))) {
+        if (! $this->boolean($this->inputKey(Vonage::class, 'enable'))) {
             return [];
         }
 
@@ -84,7 +84,7 @@ class NotificationPlusSettingRequest extends Request
 
     public function getWhatsAppValidation(): array
     {
-        if (!$this->boolean($this->inputKey(WhatsApp::class, 'enable'))) {
+        if (! $this->boolean($this->inputKey(WhatsApp::class, 'enable'))) {
             return [];
         }
 

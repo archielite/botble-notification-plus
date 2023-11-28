@@ -46,7 +46,7 @@ class NotificationManager implements NotificationManagerContract
         foreach ($this->drivers as $name) {
             $driver = $this->driver($name);
 
-            if (!$driver->isEnabled()) {
+            if (! $driver->isEnabled()) {
                 continue;
             }
 

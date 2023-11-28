@@ -18,14 +18,14 @@ class Telegram extends AbstractDriver
 
     public function send(string $message, array $data = []): array
     {
-        if (!$this->isEnabled()) {
+        if (! $this->isEnabled()) {
             return [
                 'success' => false,
                 'message' => 'Telegram is not enabled',
             ];
         }
 
-        if (!$this->getSetting('bot_token') || !$this->getSetting('chat_id')) {
+        if (! $this->getSetting('bot_token') || ! $this->getSetting('chat_id')) {
             return [
                 'success' => false,
                 'message' => 'Bot token or chat id is not set',
@@ -80,7 +80,7 @@ class Telegram extends AbstractDriver
             'parse_mode' => 'HTML',
         ]);
 
-        if (!$response->json('ok')) {
+        if (! $response->json('ok')) {
             logger()->error($response->json());
         }
 

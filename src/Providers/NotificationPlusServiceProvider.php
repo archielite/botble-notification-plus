@@ -2,17 +2,17 @@
 
 namespace ArchiElite\NotificationPlus\Providers;
 
+use ArchiElite\NotificationPlus\Contracts\NotificationManager as NotificationManagerContract;
 use ArchiElite\NotificationPlus\Drivers\Slack;
-use ArchiElite\NotificationPlus\Drivers\Vonage;
 use ArchiElite\NotificationPlus\Drivers\Telegram;
 use ArchiElite\NotificationPlus\Drivers\Twilio;
+use ArchiElite\NotificationPlus\Drivers\Vonage;
 use ArchiElite\NotificationPlus\Drivers\WhatsApp;
 use ArchiElite\NotificationPlus\Facades\NotificationPlus;
-use Botble\Base\Traits\LoadAndPublishDataTrait;
-use ArchiElite\NotificationPlus\Contracts\NotificationManager as NotificationManagerContract;
 use ArchiElite\NotificationPlus\NotificationManager;
 use Botble\Base\Facades\PanelSectionManager;
 use Botble\Base\PanelSections\PanelSectionItem;
+use Botble\Base\Traits\LoadAndPublishDataTrait;
 use Botble\Setting\PanelSections\SettingOthersPanelSection;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Foundation\AliasLoader;
