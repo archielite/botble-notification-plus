@@ -3,7 +3,6 @@
 namespace ArchiElite\NotificationPlus\Drivers;
 
 use ArchiElite\NotificationPlus\AbstractDriver;
-use ArchiElite\NotificationPlus\Http\Requests\TelegramSettingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
@@ -11,8 +10,6 @@ use Illuminate\Support\Facades\Http;
 class Telegram extends AbstractDriver
 {
     protected const API_URL = 'https://api.telegram.org/bot';
-
-    protected string $validatorClass = TelegramSettingRequest::class;
 
     protected string $viewPath = 'plugins/notification-plus::settings.telegram';
 

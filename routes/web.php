@@ -1,9 +1,9 @@
 <?php
 
-use Botble\Base\Facades\BaseHelper;
 use ArchiElite\NotificationPlus\Http\Controllers\Settings\NotificationPlusSettingController;
+use Botble\Base\Facades\AdminHelper;
 
-Route::prefix(BaseHelper::getAdminPrefix())->middleware(['web', 'core', 'auth'])->group(function () {
+AdminHelper::registerRoutes(function () {
     Route::group([
         'prefix' => 'settings/notification-plus',
         'as' => 'notification-plus.',

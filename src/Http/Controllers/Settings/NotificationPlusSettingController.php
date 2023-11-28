@@ -43,7 +43,7 @@ class NotificationPlusSettingController extends SettingController
     {
         $request->validate([
             'driver' => ['required', 'string', Rule::in(NotificationPlus::getAvailableDrivers())],
-            'message' => ['required', 'string'],
+            'message' => ['required', 'string', 'max:400'],
         ]);
 
         try {

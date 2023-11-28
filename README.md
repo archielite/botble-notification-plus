@@ -6,7 +6,7 @@ Notification Plus is a plugin for Botble CMS that allows you to integrate Telegr
 
 ## Requirements
 
--   Botble core 7.0 or higher.
+-   Botble core 7.0.0 or higher.
 
 ## Installation
 

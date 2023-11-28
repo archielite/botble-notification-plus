@@ -3,14 +3,11 @@
 namespace ArchiElite\NotificationPlus\Drivers;
 
 use ArchiElite\NotificationPlus\AbstractDriver;
-use ArchiElite\NotificationPlus\Http\Requests\TwilioSettingRequest;
 use Illuminate\Support\Facades\Http;
 
 class Twilio extends AbstractDriver
 {
     protected const API_URL = 'https://api.twilio.com/2010-04-01';
-
-    protected string $validatorClass = TwilioSettingRequest::class;
 
     protected string $viewPath = 'plugins/notification-plus::settings.twilio';
 

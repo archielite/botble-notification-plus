@@ -1,7 +1,6 @@
 <x-plugins-notification-plus::setting-form
     :$name
     :$driver
-    :$validator
     :title="trans('plugins/notification-plus::notification-plus.slack.settings.title')"
     :description="trans('plugins/notification-plus::notification-plus.slack.settings.description', ['link' => Html::link('https://api.slack.com/messaging/webhooks', 'tutorial', ['target' => '_blank'])])"
 >

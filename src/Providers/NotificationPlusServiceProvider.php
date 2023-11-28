@@ -16,7 +16,6 @@ use Botble\Base\Traits\LoadAndPublishDataTrait;
 use Botble\Setting\PanelSections\SettingOthersPanelSection;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Foundation\AliasLoader;
-use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\ServiceProvider;
 
 class NotificationPlusServiceProvider extends ServiceProvider implements DeferrableProvider
@@ -41,18 +40,17 @@ class NotificationPlusServiceProvider extends ServiceProvider implements Deferra
             ->loadAnonymousComponents()
             ->publishAssets();
 
-        $this->app['events']->listen(RouteMatched::class, function () {
-            PanelSectionManager::default()
-                ->registerItem(
-                    SettingOthersPanelSection::class,
-                    fn () => PanelSectionItem::make('notification-plus')
-                        ->setTitle(trans('plugins/notification-plus::notification-plus.name'))
-                        ->withIcon('ti ti-bell')
-                        ->withDescription(trans('plugins/notification-plus::notification-plus.description'))
-                        ->withPriority(990)
-                        ->withPermission('notification-plus.settings')
-                        ->withRoute('notification-plus.settings')
-                );
+        PanelSectionManager::default()->beforeRendering(function () {
+            PanelSectionManager::registerItem(
+                SettingOthersPanelSection::class,
+                fn () => PanelSectionItem::make('notification-plus')
+                    ->setTitle(trans('plugins/notification-plus::notification-plus.name'))
+                    ->withIcon('ti ti-bell')
+                    ->withDescription(trans('plugins/notification-plus::notification-plus.description'))
+                    ->withPriority(990)
+                    ->withPermission('notification-plus.settings')
+                    ->withRoute('notification-plus.settings')
+            );
         });
 
         $this->app->booted(function () {

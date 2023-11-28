@@ -1,7 +1,6 @@
 <x-plugins-notification-plus::setting-form
     :$name
     :$driver
-    :$validator
     :title="trans('plugins/notification-plus::notification-plus.telegram.settings.title')"
     :description="trans('plugins/notification-plus::notification-plus.telegram.settings.description', ['link' => Html::link('https://core.telegram.org/bots/features#creating-a-new-bot', 'Creating a new bot', ['target' => '_blank'])->toHtml()])"
 >

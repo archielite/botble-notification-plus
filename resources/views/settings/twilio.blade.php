@@ -1,7 +1,6 @@
 <x-plugins-notification-plus::setting-form
     :$name
     :$driver
-    :$validator
     :title="trans('plugins/notification-plus::notification-plus.twilio.settings.title')"
     :description="trans('plugins/notification-plus::notification-plus.twilio.settings.description', ['link' => Html::link('https://www.twilio.com', 'Twilio.com', ['target' => '_blank'])])"
 >

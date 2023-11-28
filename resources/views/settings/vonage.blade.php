@@ -1,7 +1,6 @@
 <x-plugins-notification-plus::setting-form
     :$name
     :$driver
-    :$validator
     :title="trans('plugins/notification-plus::notification-plus.vonage.settings.title')"
     :description="trans('plugins/notification-plus::notification-plus.vonage.settings.description', ['link' => Html::link('https://dashboard.nexmo.com/', 'Nexmo.com', ['target' => '_blank'])])"
 >

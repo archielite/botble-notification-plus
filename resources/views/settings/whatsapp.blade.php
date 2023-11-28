@@ -1,7 +1,6 @@
 <x-plugins-notification-plus::setting-form
     :$name
     :$driver
-    :$validator
     :title="trans('plugins/notification-plus::notification-plus.whatsapp.settings.title')"
     :description="trans('plugins/notification-plus::notification-plus.whatsapp.settings.description', ['link' => Html::link('https://developers.facebook.com/apps', 'Facebook Developer', ['target' => '_blank'])->toHtml()])"
 >

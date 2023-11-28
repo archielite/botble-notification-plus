@@ -5,6 +5,7 @@ namespace ArchiElite\NotificationPlus\Forms\Settings;
 use ArchiElite\NotificationPlus\Facades\NotificationPlus;
 use ArchiElite\NotificationPlus\Http\Requests\Settings\NotificationPlusSettingRequest;
 use Botble\Base\Facades\Assets;
+use Botble\Base\Forms\Fields\HtmlField;
 use Botble\Setting\Forms\SettingForm;
 
 class NotificationPlusSettingForm extends SettingForm
@@ -21,7 +22,7 @@ class NotificationPlusSettingForm extends SettingForm
             ->setFormOption('template', 'plugins/notification-plus::settings')
             ->setValidatorClass(NotificationPlusSettingRequest::class)
             ->setFormOption('class', 'notification-settings-form')
-            ->add('drivers', 'html', [
+            ->add('drivers', HtmlField::class, [
                 'html' => NotificationPlus::settings(),
             ]);
     }
