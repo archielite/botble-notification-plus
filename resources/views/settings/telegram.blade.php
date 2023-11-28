@@ -1,4 +1,4 @@
-<x-notification-plus::setting-form
+<x-plugins-notification-plus::setting-form
     :$name
     :$driver
     :$validator
@@ -30,4 +30,4 @@
 
         <ul id="telegram-list-chat-ids"></ul>
     </div>
-</x-notification-plus::setting-form>
+</x-plugins-notification-plus::setting-form>

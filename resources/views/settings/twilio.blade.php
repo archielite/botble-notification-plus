@@ -1,4 +1,4 @@
-<x-notification-plus::setting-form
+<x-plugins-notification-plus::setting-form
     :$name
     :$driver
     :$validator
@@ -37,4 +37,4 @@
             />
         </div>
     </div>
-</x-notification-plus::setting-form>
+</x-plugins-notification-plus::setting-form>

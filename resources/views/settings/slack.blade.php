@@ -1,4 +1,4 @@
-<x-notification-plus::setting-form
+<x-plugins-notification-plus::setting-form
     :$name
     :$driver
     :$validator
@@ -13,4 +13,4 @@
         class="js-telegram-bot-token"
         :helper-text="trans('plugins/notification-plus::notification-plus.slack.settings.webhook_url_instruction', ['link' => Html::link('https://t.me/BotFather', '@BotFather', ['target' => '_blank'])->toHtml()])"
     />
-</x-notification-plus::setting-form>
+</x-plugins-notification-plus::setting-form>

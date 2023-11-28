@@ -1,4 +1,4 @@
-<x-notification-plus::setting-form
+<x-plugins-notification-plus::setting-form
     :$name
     :$driver
     :$validator
@@ -30,4 +30,4 @@
     <x-core::alert>
         {{ __('If you don\'t have received any message from the bot, please reply to the message from the bot with any word to mark it as not spam.') }}
     </x-core::alert>
-</x-notification-plus::setting-form>
+</x-plugins-notification-plus::setting-form>
